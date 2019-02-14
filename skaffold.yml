@@ -1,0 +1,27 @@
+apiVersion: skaffold/v1alpha2
+kind: Config
+build:
+  artifacts:
+  #  - imageName: mongodb
+  #    workspace: helm/mongodb
+  - imageName: service-pet
+    workspace: pet
+    docker:
+      #      Uncomment to use gradle dependency caching
+#      dockerfilePath: Dockerfile-with-cache
+      buildArgs:
+        JAR_NAME: "helloworld"
+        VERSION: "0.0.1-SNAPSHOT"
+        PORT: "8080"
+deploy:
+  kubectl:
+    manifests:
+    - k8s/*
+    - routes/*
+#  helm:
+#    releases:
+#    - name: mongodb
+#      chartPath: helm/mongodb
+#      values:
+#        image: mongodb
+#      namespace: default
